@@ -1,0 +1,68 @@
+Grazioso Salvare Rescue Animal Dashboard
+Project Functionality
+This dashboard allows Grazioso Salvare staff to browse the Austin Animal Center Outcomes dataset and filter it by search-and-rescue category. The dashboard includes:
+•	A header with the Grazioso Salvare logo and developer identifier
+•	Radio button filters for Water Rescue, Mountain or Wilderness Rescue, Disaster or Individual Tracking, and Reset
+•	An interactive, sortable, paginated data table that updates based on the selected filter
+•	A pie chart showing breed distribution of the filtered results
+•	A geolocation map showing the location of the selected animal
+Below are some screenshots of the Dashboard in its default and filtered states. There were two screenshots taken per state, the top section (logo, identifier, filter, and table), and the bottom section (pie chart and map).
+ 
+Default / Unfiltered State
+Default state — top (logo, identifier, filter, table)
+ 
+ 
+Default state — bottom (pie chart and map)
+ 
+ 
+Water Rescue Filter
+Water Rescue — top (logo, identifier, filter, table)
+ 
+ 
+Water Rescue — bottom (pie chart and map)
+ 
+ 
+Mountain or Wilderness Rescue Filter
+Mountain or Wilderness Rescue — top (logo, identifier, filter, table)
+ 
+ 
+Mountain or Wilderness Rescue — bottom (pie chart and map)
+ 
+ 
+Disaster or Individual Tracking Filter
+Disaster or Individual Tracking — top (logo, identifier, filter, table)
+ 
+ 
+Disaster or Individual Tracking — bottom (pie chart and map)
+ 
+ 
+Reset Filter
+Reset — top (logo, identifier, filter, table)
+ 
+ 
+Reset — bottom (pie chart and map)
+ 
+ 
+Tools Used
+MongoDB
+MongoDB was chosen as the model component because its data model is documents with flexible, JSON-like schemas that correspond naturally with Python dictionaries, and records for animals are stored in a flexible manner. This made it easy to query, filter, and directly feed data into pandas DataFrames, without having to write a complex join or schema. The PyMongo driver also integrates seamlessly with the CRUD Python module created in Project One, which permits for a clean separation of the data layer and the logic for the dashboard.
+Dash Framework
+The application has a view and controller structure provided by Dash. The layout (dcc and html components) is the view, and Dash callbacks are the controller, receiving events on the filter input and changing the data table, pie chart, and map as a result. This is based on the MVC design pattern: MongoDB is the model, Dash layout is the view, and the callback functions (with the CRUD module) are the controller.
+Resources
+Dash Documentation
+Dash Core Components
+Dash DataTable
+Dash Leaflet
+PyMongo Documentation
+Plotly Express
+Steps Taken
+•	Connected the dashboard to MongoDB using the existing CRUD Python module from Project One
+•	Loaded the Austin Animal Center dataset into a pandas DataFrame and removed the MongoDB _id column
+•	Built the dashboard layout including the logo, identifier, radio button filters, and data table
+•	Added pagination, sorting, and row/column selection to the data table
+•	Wrote the filter callback to query MongoDB based on breed, sex, and age criteria for each rescue type
+•	Added the pie chart callback to visualize breed distribution of the filtered data
+•	Connected the geolocation map to update based on the selected row in the data table
+•	Tested each filter and the reset option, capturing screenshots of each state
+Challenges Encountered
+The geolocation map initially returned a call back error “Callback error updating map-id.children” if no row was selected. This is because derived_virtual_selected_rows return an empty list, and not None, so if one tried to access this index[0] they would get an IndexError. This was resolved by checking for both None and an empty list, defaulting to the first row when no selection has been made.
